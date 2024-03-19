@@ -5,6 +5,9 @@ import ProductoAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -109,4 +112,21 @@ class MainActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
     }
 
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_producto_contextual, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_agregar -> {
+                true
+            }
+            R.id.menu_eliminar -> {
+                // Lógica para eliminar un producto
+                true
+            }
+            else -> super.onContextItemSelected(item)
+        }
+    }
 }

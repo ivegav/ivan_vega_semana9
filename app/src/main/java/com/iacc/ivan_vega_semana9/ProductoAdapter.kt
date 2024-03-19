@@ -27,7 +27,15 @@ class ProductoAdapter : RecyclerView.Adapter<ProductoAdapter.ProductViewHolder>(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         holder.bind(product)
+
+        holder.itemView.setOnCreateContextMenuListener { menu, v, _ ->
+            menu.setHeaderTitle("Opciones")
+            menu.add(0, R.id.menu_agregar, 0, "Agregar")
+            menu.add(0, R.id.menu_eliminar, 0, "Eliminar")
+        }
     }
+
+
 
     override fun getItemCount(): Int {
         return productList.size
