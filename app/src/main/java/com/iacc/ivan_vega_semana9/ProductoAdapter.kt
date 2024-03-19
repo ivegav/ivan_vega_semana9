@@ -1,4 +1,5 @@
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class ProductoAdapter : RecyclerView.Adapter<ProductoAdapter.ProductViewHolder>(
             productPrice.text = "$${product.price}"
             productRating.text = "Rating: ${product.rating.rate}"
 
+            Log.v("[Productos]", "Cargando imagen del producto ${product.title}...")
             // Cargar la imagen del producto utilizando Picasso u otra biblioteca de manejo de imágenes
             Picasso.get().load(product.image).into(productImage)
         }

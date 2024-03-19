@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val btnShowChart: Button = findViewById(R.id.btnShowChart)
 
         btnShowChart.setOnClickListener {
-            startActivity(Intent(this, ChartActivity::class.java))
+            startActivity(Intent(this, GraficoActivity::class.java))
         }
 
         Log.v("[Productos]", "Cargando productos...")

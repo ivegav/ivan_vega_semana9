@@ -26,6 +26,10 @@ android {
             )
         }
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,6 +40,8 @@ android {
 }
 
 dependencies {
+    //importa lib de chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.android.volley:volley:1.2.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
