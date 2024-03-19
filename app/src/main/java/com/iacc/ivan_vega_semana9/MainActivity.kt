@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.v("[Productos]", "Cargando productos...")
+        Log.v("[Productos]", "Verificando si existen productos en la base de datos...")
         if (!checkIfProductsExistInDB()) {
             Log.v("[Productos]", "No hay productos en la base de datos, cargando desde API...")
             fetchProducts()
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkIfProductsExistInDB(): Boolean {
-        Log.v("[Productos]", "Verificando si existen productos en la base de datos...")
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery("SELECT COUNT(*) FROM ${ProductDBHelper.ProductEntry.TABLE_NAME}", null)
         cursor.moveToFirst()

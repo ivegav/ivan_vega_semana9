@@ -22,11 +22,12 @@ class GraficoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_grafico)
 
         dbHelper = ProductDBHelper(this)
+        Log.v("[Productos]", "Mostrando gráfico de los cinco productos con mejor valoración...")
+
         displayTopRatedProductsChart()
     }
 
     private fun displayTopRatedProductsChart() {
-        Log.v("[Productos]", "Mostrando gráfico de los cinco productos con mejor valoración...")
         val topRatedProducts = getTopRatedProducts()
 
         val barChart = findViewById<BarChart>(R.id.barChart)
