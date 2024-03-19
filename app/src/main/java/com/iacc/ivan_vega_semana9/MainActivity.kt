@@ -1,8 +1,12 @@
 package com.iacc.ivan_vega_semana9
 
+import ProductDBHelper
 import ProductoAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +21,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ProductoAdapter
+    private lateinit var dbHelper: ProductDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        dbHelper = ProductDBHelper(this)
 
-        // Referenciar el RecyclerView en el layout
         recyclerView = findViewById(R.id.recyclerView)
 
         // Configurar el RecyclerView
@@ -30,10 +35,34 @@ class MainActivity : AppCompatActivity() {
         adapter = ProductoAdapter()
         recyclerView.adapter = adapter
 
-        // Llamar a la función para cargar los productos desde la API al iniciar la aplicación
-        fetchProducts()
+        val btnShowChart: Button = findViewById(R.id.btnShowChart)
+
+        btnShowChart.setOnClickListener {
+            startActivity(Intent(this, ChartActivity::class.java))
+        }
+
+        Log.v("[Productos]", "Cargando productos...")
+        if (!checkIfProductsExistInDB()) {
+            Log.v("[Productos]", "No hay productos en la base de datos, cargando desde API...")
+            fetchProducts()
+        } else {
+            // Si hay productos en la base de datos, cargarlos desde la base de datos
+            Log.v("[Productos]", "Cargando productos desde la base de datos...")
+            val productsFromDB = dbHelper.getAllProducts()
+            adapter.setProductos(productsFromDB)
+            Toast.makeText(this, "Productos cargados desde la base de datos", Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun checkIfProductsExistInDB(): Boolean {
+        Log.v("[Productos]", "Verificando si existen productos en la base de datos...")
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM ${ProductDBHelper.ProductEntry.TABLE_NAME}", null)
+        cursor.moveToFirst()
+        val count = cursor.getInt(0)
+        cursor.close()
+        return count > 0
+    }
     private fun fetchProducts() {
         val url = "https://fakestoreapi.com/products"
 
@@ -63,8 +92,12 @@ class MainActivity : AppCompatActivity() {
                             ProductoDto.Rating(rate, count)
                         )
                         productos.add(newProduct)
+
+                        dbHelper.insertProduct(newProduct)
                     }
                     adapter.setProductos(productos)
+                    Log.v("[Productos]", "Productos cargados desde API: $productos")
+                    Toast.makeText(this, "Productos cargados desde la API", Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -75,17 +108,5 @@ class MainActivity : AppCompatActivity() {
 
         Volley.newRequestQueue(this).add(request)
     }
-/**
-    private fun getProductsFromLocalStorage(): List<ProductoDto> {
-        // Esta función simula obtener los productos almacenados de manera persistente
-        // Aquí deberías implementar la lógica para obtener los productos de la base de datos local
-        // o cualquier otro medio de almacenamiento persistente
-        return listOf(
-            ProductoDto("Producto 1", 10.99, 4.5, "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"),
-            ProductoDto("Producto 2", 20.99, 3.8, "https://example.com/product2.jpg"),
-            ProductoDto("Producto 3", 15.99, 4.2, "https://example.com/product3.jpg")
-            // Agregar más productos según sea necesario
-        )
-    }
-    */
+
 }

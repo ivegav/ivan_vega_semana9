@@ -5,9 +5,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- RecyclerView para mostrar productos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!-- Botón para mostrar el gráfico -->
+    <Button
+        android:id="@+id/btnShowChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Mostrar Gráfico" />
 
 </RelativeLayout>
