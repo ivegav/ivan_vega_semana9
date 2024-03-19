@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             Log.v("[Productos]", "Cargando productos desde la base de datos...")
             val productsFromDB = dbHelper.getAllProducts()
             adapter.setProductos(productsFromDB)
-            Toast.makeText(this, "Productos cargados desde la base de datos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Productos cargados correctamente", Toast.LENGTH_SHORT).show()
         }
     }
 
